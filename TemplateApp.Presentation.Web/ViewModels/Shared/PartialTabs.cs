@@ -1,7 +1,6 @@
 ﻿using TemplateApp.Presentation.Web.Misc;
-using TemplateApp.Presentation.Web.ViewModels.Partial;
 
-namespace TemplateApp.Presentation.Web.ViewModels.Partial
+namespace TemplateApp.Presentation.Web.ViewModels.Shared
 {
     public class PartialTabs : WebAppComponentViewModel<PartialTabs>
     {

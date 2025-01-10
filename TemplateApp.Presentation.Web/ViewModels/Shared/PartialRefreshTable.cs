@@ -1,4 +1,4 @@
-﻿namespace TemplateApp.ViewModels.Partial
+﻿namespace TemplateApp.Presentation.Web.ViewModels.Shared
 {
     public class PartialRefreshTable
     {

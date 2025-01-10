@@ -1,5 +1,4 @@
-﻿using TemplateApp.Presentation.Web.ViewModels.Partial;
-using TemplateApp.ViewModels.Partial;
+﻿using TemplateApp.Presentation.Web.ViewModels.Shared;
 
 namespace TemplateApp.ViewModels
 {

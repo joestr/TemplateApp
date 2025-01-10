@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
-using TemplateApp.Presentation.Web.ViewModels.Partial;
+using TemplateApp.Presentation.Web.ViewModels.Shared;
 using TemplateApp.ViewModels;
-using TemplateApp.ViewModels.Partial;
 
 namespace TemplateApp.Controllers
 {

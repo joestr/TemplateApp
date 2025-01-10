@@ -1,4 +1,4 @@
-﻿namespace TemplateApp.Presentation.Web.ViewModels.Partial;
+﻿namespace TemplateApp.Presentation.Web.ViewModels.Shared;
 
 public class PartialText
 {
