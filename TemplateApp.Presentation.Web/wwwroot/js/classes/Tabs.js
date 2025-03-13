@@ -5,6 +5,7 @@
     refreshOnEvents = [];
     contentElementId = "";
     selectedTabId = null;
+    /* Tabs created by Materialize */
     materializeTabs = [];
 
     constructor(identifier, refreshUrl, refreshOnEvents, contentElementId, selectedTabId) {
@@ -100,11 +101,6 @@
         }
     }
 
-    selectOrderId(selectedOrderId) {
-        this.selectedOrderId = selectedOrderId;
-        this.refresh();
-    }
-
     /**
      * The ID of the tab to select and highlight.
      * @param {Number} selectedTabId The ID of the tab.
@@ -118,7 +114,7 @@
             * the content from the server side. */
             this.refresh();
         } else {
-            this.materializeTabs[0].select(`${this.identifier}_${this.selectedContainerListId}`);
+            this.materializeTabs[0].select(`${this.identifier}_${this.selectedTabId}`);
             this.materializeTabs[0].updateTabIndicator();
             setTimeout((handler) => {
                 this.refresh();

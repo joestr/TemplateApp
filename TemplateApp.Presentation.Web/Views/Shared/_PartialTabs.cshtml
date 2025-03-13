@@ -68,10 +68,9 @@
             let refreshOnEvents = @{ WriteLiteral(Model.RefreshOnEventsJson); };
             let contentElementId = "@{ WriteLiteral($"{Model.GetClassName()}_{Model.Identifier}_Content"); }";
             /* Additional properties */
-            let selectedTabsId = @{ WriteLiteral(!string.IsNullOrEmpty(Model.SelectedTabsId) ? $"\"{Model.SelectedTabsId}\"" : "null"); };
             let selectedTabId = @{ WriteLiteral(!string.IsNullOrEmpty(Model.SelectedTabId) ? $"\"{Model.SelectedTabId}\"" : "null"); }
 
-            @{ WriteLiteral($"{Model.GetClassName()}_{Model.Identifier}"); } = new @{ WriteLiteral(Model.GetClassName()); }(identifier, refreshUrl, refreshOnEvents, contentElementId, selectedTabsId, selectedTabId);
+            @{ WriteLiteral($"{Model.GetClassName()}_{Model.Identifier}"); } = new @{ WriteLiteral(Model.GetClassName()); }(identifier, refreshUrl, refreshOnEvents, contentElementId, selectedTabId);
         });
     </script>
 }

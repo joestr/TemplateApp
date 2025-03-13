@@ -88,11 +88,10 @@ namespace TemplateApp.Controllers
         private PartialTabs BuildTabs()
         {
             var result = new PartialTabs(
-                [],
                 "tabs",
                 Url.Action("Tabs", "Home") ?? "",
                 [],
-                null,
+                [],
                 null);
             result.FillFromQueryCollection(Request.Query);
             
