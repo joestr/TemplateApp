@@ -119,6 +119,11 @@ namespace TemplateApp.Controllers
             return result;
         }
 
+        private PartialLinkButton BuildLinkButtonWithText()
+        {
+            return new PartialLinkButton("Button with text", "/", "", "Create");
+        }
+
         //[Authorize]
         public IActionResult Start()
         {
@@ -126,6 +131,7 @@ namespace TemplateApp.Controllers
 
             viewModel.FuelPriceTable = BuildFuelPriceTable();
             viewModel.PartialTabs = BuildTabs();
+            viewModel.LinkButtonWithText = BuildLinkButtonWithText();
 
             return View(viewModel);
         }
