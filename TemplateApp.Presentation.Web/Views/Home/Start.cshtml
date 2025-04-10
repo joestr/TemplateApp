@@ -17,3 +17,8 @@
 
 <h2>Buttons</h2>
 <partial name="_PartialLinkButton" model="Model.LinkButtonWithText"/>
+
+<h3>Dialog</h3>
+<partial name="_PartialLinkButton" model="Model.OpenDialogButton"/>
+
+@await Html.PartialAsync("_PartialModalDialog", Model.Dialog)

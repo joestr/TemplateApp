@@ -1,0 +1,26 @@
+﻿@using TemplateApp.Presentation.Web.ViewModels.Shared
+@{
+    Layout = null;
+}
+
+@if (Model.IncludeContent) {
+    <div id="@{ WriteLiteral($"{PartialModalDialogContent.ClassName()}_{Model.Identifier}_Content"); }">
+    </div>
+}
+@if (Model.IncludeScript)
+{
+    <script src="~/js/classes/ModalDialogContent.js"></script>
+    <script>
+        var @{ WriteLiteral($"{PartialModalDialogContent.ClassName()}_{Model.Identifier}"); } = { }; 
+
+        document.addEventListener("DOMContentLoaded", function () {
+            let identifier = "@{ WriteLiteral($"{Model.Identifier}"); }";
+            let refreshUrl = "@{ WriteLiteral($"{Model.RefreshUrl}"); }";
+            let refreshOnEvents = @{ WriteLiteral($"{Model.RefreshOnEventsJson}"); };
+            let contentElementId = "@{ WriteLiteral($"{PartialModalDialogContent.ClassName()}_{Model.Identifier}_Content"); }";
+            /* Variables */
+
+            @{ WriteLiteral($"{PartialModalDialogContent.ClassName()}_{Model.Identifier}"); } = new @{ WriteLiteral(PartialModalDialogContent.ClassName()); }(identifier, refreshUrl, refreshOnEvents, contentElementId);
+        });
+    </script>
+}

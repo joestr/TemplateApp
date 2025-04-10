@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
+using TemplateApp.Presentation.Web.Misc;
 using TemplateApp.Presentation.Web.ViewModels.Shared;
 using TemplateApp.ViewModels;
 
@@ -124,6 +125,55 @@ namespace TemplateApp.Controllers
             return new PartialLinkButton("Button with text", "/", "", "Create");
         }
 
+        private PartialLinkButton BuildOpenDialogButton()
+        {
+            return new PartialLinkButton(
+                "Button with text", 
+                new WebAppJavaScriptFunctionCall(
+                    PartialModalDialog.ClassName(),
+                    "dialog",
+                    PartialModalDialog.MethodNameOpenModalDialog(),
+                    PartialModalDialog.MethodArgsOpenModalDialog("dialog1")).FunctionCall, 
+                "", 
+                "Open dialog");
+        }
+
+        private PartialModalDialog BuildDialog()
+        {
+            var result = new PartialModalDialog(
+                "dialog",
+                Url.Action("Dialog", "Home") ?? "",
+                [],
+                "Dialog",
+                BuildDialogContent(),
+                new WebAppJavaScriptFunctionCalls(
+                    new WebAppJavaScriptFunctionCall(
+                        PartialModalDialog.ClassName(),
+                        "dialog",
+                        PartialModalDialog.MethodNameOpenModalDialog(),
+                        PartialModalDialog.MethodArgsOpenModalDialog(null))),
+                null);
+            result.FillFromQueryCollection(Request.Query);
+
+            return result;
+        }
+
+        private PartialModalDialogContent BuildDialogContent()
+        {
+            var result = new PartialModalDialogContent(
+                "dialogcontent",
+                Url.Action("DialogContent", "Home") ?? "",
+                [
+                    new WebAppRefreshOnEvent(
+                        PartialModalDialog.ClassName(),
+                        "dialog",
+                        PartialModalDialog.EventTriggerNameOpenedModalDialog(),
+                        PartialModalDialogContent.EventHandlerNameOnOpenedModalDialog())]);
+            result.FillFromQueryCollection(Request.Query);
+
+            return result;
+        }
+
         //[Authorize]
         public IActionResult Start()
         {
@@ -132,6 +182,8 @@ namespace TemplateApp.Controllers
             viewModel.FuelPriceTable = BuildFuelPriceTable();
             viewModel.PartialTabs = BuildTabs();
             viewModel.LinkButtonWithText = BuildLinkButtonWithText();
+            viewModel.OpenDialogButton = BuildOpenDialogButton();
+            viewModel.Dialog = BuildDialog();
 
             return View(viewModel);
         }
@@ -146,6 +198,20 @@ namespace TemplateApp.Controllers
         {
             var viewModel = BuildTabs();
             return View("_PartialTabs", viewModel);
+        }
+
+        public IActionResult Dialog()
+        {
+            var viewModel = BuildDialog();
+            return View("_PartialModalDialog", viewModel);
+        }
+
+        public IActionResult DialogContent()
+        {
+            var viewModel = BuildDialogContent();
+            viewModel.IncludeScript = false;
+            viewModel.IncludeContent = true;
+            return View("_PartialModalDialogContent", viewModel);
         }
     }
 }
