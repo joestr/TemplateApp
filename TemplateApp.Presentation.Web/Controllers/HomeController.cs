@@ -122,7 +122,7 @@ namespace TemplateApp.Controllers
 
         private PartialLinkButton BuildLinkButtonWithText()
         {
-            return new PartialLinkButton("Button with text", "/", "", "Create");
+            return new PartialLinkButton("Button with text", "/", "", "Create", AnchorTarget.Self);
         }
 
         private PartialLinkButton BuildOpenDialogButton()
@@ -135,7 +135,8 @@ namespace TemplateApp.Controllers
                     PartialModalDialog.MethodNameOpenModalDialog(),
                     PartialModalDialog.MethodArgsOpenModalDialog("dialog1")).FunctionCall, 
                 "", 
-                "Open dialog");
+                "Open dialog",
+                    AnchorTarget.Self);
         }
 
         private PartialModalDialog BuildDialog()
