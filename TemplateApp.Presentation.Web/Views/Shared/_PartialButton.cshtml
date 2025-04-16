@@ -1,0 +1,12 @@
+﻿@model TemplateApp.Presentation.Web.ViewModels.Shared.PartialButton
+
+<button class="btn outlined" title="@Model.Title" onclick="@Model.OnClick.FunctionCalls">
+    @if (Model.Icon != null)
+    {
+        <i class="material-symbols-outlined">@Model.Icon</i>
+    }
+    @if (Model.Text != null)
+    {
+        <span>@Model.Text</span>
+    }
+</button>

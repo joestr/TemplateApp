@@ -102,14 +102,12 @@ namespace TemplateApp.Controllers
                     new PartialText("Content for tab 1"),
                     "tab1",
                     "Tab 1"));
-            
             result.Tabs.Add(
                 new PartialTab(
                     "_PartialText",
                     new PartialText("Content for tab 2"),
                     "tab2",
                     "Tab 2"));
-            
             result.Tabs.Add(
                 new PartialTab(
                     "_PartialText",
@@ -125,18 +123,18 @@ namespace TemplateApp.Controllers
             return new PartialLinkButton("Button with text", "/", "", "Create", AnchorTarget.Self);
         }
 
-        private PartialLinkButton BuildOpenDialogButton()
+        private PartialButton BuildOpenDialogButton()
         {
-            return new PartialLinkButton(
-                "Button with text", 
-                new WebAppJavaScriptFunctionCall(
-                    PartialModalDialog.ClassName(),
-                    "dialog",
-                    PartialModalDialog.MethodNameOpenModalDialog(),
-                    PartialModalDialog.MethodArgsOpenModalDialog("dialog1")).FunctionCall, 
-                "", 
-                "Open dialog",
-                    AnchorTarget.Self);
+            return new PartialButton(
+                title: "Open dialog", 
+                icon: "", 
+                text: "Open dialog",
+                onClick: new WebAppJavaScriptFunctionCalls(
+                    new WebAppJavaScriptFunctionCall(
+                        PartialModalDialog.ClassName(),
+                        "dialog",
+                        PartialModalDialog.MethodNameOpenModalDialog(),
+                        PartialModalDialog.MethodArgsOpenModalDialog("dialog1"))));
         }
 
         private PartialModalDialog BuildDialog()

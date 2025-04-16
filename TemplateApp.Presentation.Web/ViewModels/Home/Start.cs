@@ -7,7 +7,7 @@ namespace TemplateApp.ViewModels
         public PartialRefreshTable? FuelPriceTable { get; set; }
         public PartialTabs PartialTabs { get; set; }
         public PartialLinkButton LinkButtonWithText { get; set; }
-        public PartialLinkButton OpenDialogButton { get; set; }
+        public PartialButton OpenDialogButton { get; set; }
         public PartialModalDialog Dialog { get; set; }
     }
 }
