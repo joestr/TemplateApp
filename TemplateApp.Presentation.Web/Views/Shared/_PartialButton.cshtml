@@ -1,12 +1,9 @@
 ﻿@model TemplateApp.Presentation.Web.ViewModels.Shared.PartialButton
 
-<button class="btn outlined" title="@Model.Title" onclick="@Model.OnClick.FunctionCalls">
-    @if (Model.Icon != null)
+<form action="" method="get">
+    @foreach (var entry in Model.HiddenNameActions)
     {
-        <i class="material-symbols-outlined">@Model.Icon</i>
+        <input type="hidden" name="@entry.Key" value="@entry.Value"/>
     }
-    @if (Model.Text != null)
-    {
-        <span>@Model.Text</span>
-    }
-</button>
+    <input type="submit" name="@Model.ActionName" value="@Model.ActionValue"/>
+</form>

@@ -3,29 +3,18 @@ using Newtonsoft.Json;
 
 namespace TemplateApp.Presentation.Web.Misc;
 
-public class WebAppComponentViewModel<T> : IWebAppJavaScriptClass
+public class WebAppComponentViewModel
 {
     public string Identifier { get; set; } = "";
-    public string RefreshUrl { get; set; } = "";
-    public List<WebAppRefreshOnEvent> RefreshOnEvents { get; set; } = [];
-    public string RefreshOnEventsJson => JsonConvert.SerializeObject(this.RefreshOnEvents);
-    public bool IncludeContent { get; set; } = true;
-    public bool IncludeScript { get; set; } = true;
+    public IDictionary<string, string> HiddenNameActions { get; set; } = new Dictionary<string, string>();
 
     public WebAppComponentViewModel()
     {
     }
 
-    public WebAppComponentViewModel(string identifier, string refreshUrl, List<WebAppRefreshOnEvent> refreshOnEvents)
+    public WebAppComponentViewModel(string identifier, IDictionary<string, string> hiddenNameActions)
     {
         Identifier = identifier;
-        RefreshUrl = refreshUrl;
-        RefreshOnEvents = refreshOnEvents;
-    }
-
-    public string GetClassName()
-    {
-        var classNameString = typeof(T).Name;
-        return classNameString.Substring(("_Partial".Length - 1), classNameString.Length - ("_Partial".Length -1));
+        HiddenNameActions = hiddenNameActions;
     }
 }

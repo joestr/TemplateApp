@@ -8,6 +8,6 @@ namespace TemplateApp.ViewModels
         public PartialTabs PartialTabs { get; set; }
         public PartialLinkButton LinkButtonWithText { get; set; }
         public PartialButton OpenDialogButton { get; set; }
-        public PartialModalDialog Dialog { get; set; }
+        public PartialDialog Dialog { get; set; }
     }
 }

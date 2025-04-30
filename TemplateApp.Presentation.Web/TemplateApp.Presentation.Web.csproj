@@ -32,7 +32,24 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="wwwroot\lib\materialize\css\" />
+	  <_ContentIncludedByDefault Remove="wwwroot\lib\material-symbols\index.css" />
+	  <_ContentIncludedByDefault Remove="wwwroot\lib\material-symbols\index.d.ts" />
+	  <_ContentIncludedByDefault Remove="wwwroot\lib\material-symbols\index.scss" />
+	  <_ContentIncludedByDefault Remove="wwwroot\lib\material-symbols\LICENSE" />
+	  <_ContentIncludedByDefault Remove="wwwroot\lib\material-symbols\material-symbols-outlined.woff2" />
+	  <_ContentIncludedByDefault Remove="wwwroot\lib\material-symbols\material-symbols-rounded.woff2" />
+	  <_ContentIncludedByDefault Remove="wwwroot\lib\material-symbols\material-symbols-sharp.woff2" />
+	  <_ContentIncludedByDefault Remove="wwwroot\lib\material-symbols\outlined.css" />
+	  <_ContentIncludedByDefault Remove="wwwroot\lib\material-symbols\outlined.scss" />
+	  <_ContentIncludedByDefault Remove="wwwroot\lib\material-symbols\package.json" />
+	  <_ContentIncludedByDefault Remove="wwwroot\lib\material-symbols\README.md" />
+	  <_ContentIncludedByDefault Remove="wwwroot\lib\material-symbols\rounded.css" />
+	  <_ContentIncludedByDefault Remove="wwwroot\lib\material-symbols\rounded.scss" />
+	  <_ContentIncludedByDefault Remove="wwwroot\lib\material-symbols\sharp.css" />
+	  <_ContentIncludedByDefault Remove="wwwroot\lib\material-symbols\sharp.scss" />
+	  <_ContentIncludedByDefault Remove="wwwroot\lib\material-symbols\_core.scss" />
+	  <_ContentIncludedByDefault Remove="wwwroot\js\classes\ModalDialog.js" />
+	  <_ContentIncludedByDefault Remove="wwwroot\js\classes\ModalDialogContent.js" />
 	</ItemGroup>
 
 </Project>

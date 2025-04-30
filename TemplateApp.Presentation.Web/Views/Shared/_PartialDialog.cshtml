@@ -1,0 +1,20 @@
+﻿@model TemplateApp.Presentation.Web.ViewModels.Shared.PartialDialog
+@{
+    Layout = null;
+}
+
+<dialog @{ WriteLiteral(!string.IsNullOrEmpty(Model.OpenedDialogId) ? "open" : ""); }>
+    <div>
+        <h5>@Model.Title</h5>
+        <div>
+            @await Html.PartialAsync("_PartialDialogContent", @Model.Content)
+        </div>
+    </div>
+    <form method="get" action="">
+        @foreach (var entry in Model.HiddenNameActions)
+        {
+            <input type="hidden" name="@entry.Key" value="@entry.Value"/>
+        }
+        <input type="submit" name="@Model.Identifier@nameof(Model.OpenedDialogId)" value=""/>
+    </form>
+</dialog>

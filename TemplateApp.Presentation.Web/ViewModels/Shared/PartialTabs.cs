@@ -2,12 +2,12 @@
 
 namespace TemplateApp.Presentation.Web.ViewModels.Shared
 {
-    public class PartialTabs : WebAppComponentViewModel<PartialTabs>
+    public class PartialTabs : WebAppComponentViewModel
     {
         public List<PartialTab> Tabs { get; set; }
         public string SelectedTabId { get; set; }
 
-        public PartialTabs(string identifier, string refreshUrl, List<WebAppRefreshOnEvent> refreshOnEvents, List<PartialTab> tabs, string selectedTabId) : base(identifier, refreshUrl, refreshOnEvents)
+        public PartialTabs(string identifier, IDictionary<string, string> hiddenNameActions, List<PartialTab> tabs, string selectedTabId) : base(identifier, hiddenNameActions)
         {
             Tabs = tabs;
             SelectedTabId = selectedTabId;
@@ -15,7 +15,7 @@ namespace TemplateApp.Presentation.Web.ViewModels.Shared
 
         public void FillFromQueryCollection(IQueryCollection queryCollection)
         {
-            var selectedTabId = queryCollection[Identifier + "_selectedTabId"].FirstOrDefault();
+            var selectedTabId = queryCollection[Identifier + nameof(SelectedTabId)].FirstOrDefault();
 
             if (!string.IsNullOrEmpty(selectedTabId))
             {

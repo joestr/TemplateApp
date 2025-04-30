@@ -6,19 +6,10 @@
 <h1>@ViewData["Title"]</h1>
 <p>This is some of a kitchen sink for all things to get layouted properly.</p>
 
-<h2>Horizontal panels</h2>
-<partial name="_PartialHorizontalCards"/>
-
-<h2>Table</h2>
-<partial name="_PartialRefreshTable" model="Model.FuelPriceTable"/>
-
 <h2>Tabs</h2>
 <partial name="_PartialTabs" model="Model.PartialTabs"/>
-
-<h2>Buttons</h2>
-<partial name="_PartialLinkButton" model="Model.LinkButtonWithText"/>
 
 <h3>Dialog</h3>
 <partial name="_PartialButton" model="Model.OpenDialogButton"/>
 
-@await Html.PartialAsync("_PartialModalDialog", Model.Dialog)
+@await Html.PartialAsync("_PartialDialog", Model.Dialog)
