@@ -52,4 +52,8 @@
 	  <_ContentIncludedByDefault Remove="wwwroot\js\classes\ModalDialogContent.js" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="wwwroot\pictures\" />
+	</ItemGroup>
+
 </Project>

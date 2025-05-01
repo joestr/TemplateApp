@@ -13,6 +13,7 @@ namespace TemplateApp.Controllers
         private const string DialogIdentifier = "Dialog";
         private const string DialogContentIdentifier = "DialogContent";
         private const string ButtonIdentifier = "Button";
+        private const string TableIdentifier = "Table";
         
         private readonly ILogger<HomeController> _logger;
 
@@ -29,6 +30,38 @@ namespace TemplateApp.Controllers
             }
 
             return View();
+        }
+
+        private PartialTable BuildTable()
+        {
+            var result = new PartialTable(
+                identifier: TableIdentifier,
+                new Dictionary<string, string>() {},
+                queryCollection: Request.Query,
+                new List<List<string>>()
+                {
+                    new List<string>() { "Row 1 Col 1", "Row 1 Col 2" },
+                    new List<string>() { "Row 2 Col 1", "Row 2 Col 2" },
+                    new List<string>() { "Row 3 Col 1", "Row 3 Col 2" },
+                },
+                null,
+                null);
+
+            if (result.SearchTerm != null)
+            {
+                var res = new List<List<string>>()
+                {
+                    new List<string>() { "Row 1 Col 1", "Row 1 Col 2" },
+                    new List<string>() { "Row 2 Col 1", "Row 2 Col 2" },
+                    new List<string>() { "Row 3 Col 1", "Row 3 Col 2" },
+                };
+                
+               res = res.FindAll(rows => rows.Any(cols => cols.Contains(result.SearchTerm)));
+
+               result.Grid = res;
+            }
+
+            return result;
         }
 
         private PartialTabs BuildTabs()
@@ -107,7 +140,8 @@ namespace TemplateApp.Controllers
         public IActionResult Start()
         {
             var viewModel = new Start();
-            
+
+            viewModel.Table = BuildTable();
             viewModel.PartialTabs = BuildTabs();
             viewModel.LinkButtonWithText = BuildLinkButtonWithText();
             viewModel.OpenDialogButton = BuildOpenDialogButton();
@@ -115,20 +149,30 @@ namespace TemplateApp.Controllers
 
             viewModel.Dialog.GetHiddenInputNameAndValues().ForEach(nv =>
             {
-                viewModel.OpenDialogButton.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
                 viewModel.PartialTabs.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+                viewModel.OpenDialogButton.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+                viewModel.Table.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
             });
 
             viewModel.PartialTabs.GetHiddenInputNameAndValues().ForEach(nv =>
             {
-                viewModel.OpenDialogButton.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
                 viewModel.Dialog.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+                viewModel.OpenDialogButton.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+                viewModel.Table.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
             });
             
             viewModel.OpenDialogButton.GetHiddenInputNameAndValues().ForEach(nv =>
             {
-                viewModel.PartialTabs.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
                 viewModel.Dialog.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+                viewModel.PartialTabs.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+                viewModel.Table.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+            });
+            
+            viewModel.Table.GetHiddenInputNameAndValues().ForEach(nv =>
+            {
+                viewModel.Dialog.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+                viewModel.PartialTabs.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+                viewModel.OpenDialogButton.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
             });
 
             return View(viewModel);

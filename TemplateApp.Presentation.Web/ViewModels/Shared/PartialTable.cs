@@ -4,8 +4,8 @@ namespace TemplateApp.Presentation.Web.ViewModels.Shared;
 
 public class PartialTable : WebAppComponentViewModel
 {
-    public string Title { get; set; } = "";
-    public PartialDialogContent Content { get; set; } = new();
+    public List<List<string>> Grid { get; set; } = new List<List<string>>();
+    public string? SearchTerm { get; set; } = "";
 
     public PartialTable()
     {
@@ -15,17 +15,24 @@ public class PartialTable : WebAppComponentViewModel
         string identifier,
         IDictionary<string, string> hiddenInputNameAndValues,
         IQueryCollection queryCollection,
-        string? openedDialog) : base(identifier, hiddenInputNameAndValues, queryCollection)
+        List<List<string>> grid,
+        bool? refresh,
+        string? searchTerm) : base(identifier, hiddenInputNameAndValues, queryCollection)
     {
+        Grid = grid;
+        SearchTerm = searchTerm;
         FillFromQuery();
     }
 
     public override void FillFromQuery(IQueryCollection queryCollection)
     {
+        SearchTerm = GetStringFromQueryParameter(queryCollection, nameof(SearchTerm));
     }
 
     public override List<KeyValuePair<string, string>> GetHiddenInputNameAndValues()
     {
-        return new List<KeyValuePair<string, string>>();
+        var result = new List<KeyValuePair<string, string>>();
+        result = this.AddNullableToList(result, this.GetHiddenInputNameAndValue(nameof(SearchTerm), SearchTerm));
+        return result;
     }
 }

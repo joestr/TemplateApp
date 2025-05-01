@@ -6,6 +6,9 @@
 <h1>@ViewData["Title"]</h1>
 <p>This is some of a kitchen sink for all things to get layouted properly.</p>
 
+<h2>Table</h2>
+@await Html.PartialAsync("_PartialTable", Model.Table)
+
 <h2>Tabs</h2>
 <partial name="_PartialTabs" model="Model.PartialTabs"/>
 

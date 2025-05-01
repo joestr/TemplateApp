@@ -1,0 +1,36 @@
+﻿@model TemplateApp.Presentation.Web.ViewModels.Shared.PartialTable
+@{
+    Layout = null;
+}
+
+<div style="display: flex;">
+    <form method="get" action="">
+        @foreach (var hiddenElements in Model.HiddenInputNameAndValues)
+        {
+            <input type="hidden" name="@hiddenElements.Key" value="@hiddenElements.Value"/>
+        }
+        <input type="text" name="@Model.Identifier@nameof(Model.SearchTerm)" value="@Model.SearchTerm"/>
+        <input type="submit" value="Search"/>
+    </form>
+</div>
+<table>
+    <thead>
+    <tr>
+        <td>
+        </td>
+    </tr>
+    <tr></tr>
+    </thead>
+    <tbody>
+    @foreach (var row in Model.Grid)
+    {
+        <tr>
+            @foreach (var column in row)
+            {
+                <td>@column</td>
+            }
+        </tr>
+    }
+    </tbody>
+    <tfoot><td></td></tfoot>
+</table>
