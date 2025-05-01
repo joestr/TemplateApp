@@ -10,8 +10,8 @@
         @foreach (var tab in Model.Tabs)
         {
             @if (
-                (string.IsNullOrEmpty(Model.SelectedTabId) && firstRound)
-                || (!string.IsNullOrEmpty(Model.SelectedTabId) && (tab.Id == Model.SelectedTabId))
+                (string.IsNullOrEmpty(Model.SelectedTab) && firstRound)
+                || (!string.IsNullOrEmpty(Model.SelectedTab) && (tab.Id == Model.SelectedTab))
             )
             {
                     
@@ -19,11 +19,11 @@
             }
             else
             {
-                @foreach (var entry in Model.HiddenNameActions)
+                @foreach (var entry in Model.HiddenInputNameAndValues)
                 {
                     <input type="hidden" name="@entry.Key" value="@entry.Value"/>
                 }
-                <button type="submit" name="@Model.Identifier@nameof(Model.SelectedTabId)" value="@tab.Id">@tab.Title</button>
+                <button type="submit" name="@Model.Identifier@nameof(Model.SelectedTab)" value="@tab.Id">@tab.Title</button>
             }
 
             firstRound = false;
@@ -33,8 +33,8 @@
     @foreach (var tabC in Model.Tabs)
     {
         @if (
-            (string.IsNullOrEmpty(Model.SelectedTabId) && firstRound)
-            || (!string.IsNullOrEmpty(Model.SelectedTabId) && (tabC.Id == Model.SelectedTabId))
+            (string.IsNullOrEmpty(Model.SelectedTab) && firstRound)
+            || (!string.IsNullOrEmpty(Model.SelectedTab) && (tabC.Id == Model.SelectedTab))
         )
         {
             <div id="@Model.Identifier@tabC.Id" style="display: block;">

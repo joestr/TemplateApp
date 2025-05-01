@@ -5,22 +5,25 @@ namespace TemplateApp.Presentation.Web.ViewModels.Shared
     public class PartialTabs : WebAppComponentViewModel
     {
         public List<PartialTab> Tabs { get; set; }
-        public string SelectedTabId { get; set; }
+        public string? SelectedTab { get; set; }
 
-        public PartialTabs(string identifier, IDictionary<string, string> hiddenNameActions, List<PartialTab> tabs, string selectedTabId) : base(identifier, hiddenNameActions)
+        public PartialTabs(string identifier, IDictionary<string, string> hiddenInputNameAndValues, IQueryCollection queryCollection, List<PartialTab> tabs, string? selectedTab) : base(identifier, hiddenInputNameAndValues, queryCollection)
         {
             Tabs = tabs;
-            SelectedTabId = selectedTabId;
+            SelectedTab = selectedTab;
+            FillFromQuery();
         }
 
-        public void FillFromQueryCollection(IQueryCollection queryCollection)
+        public override void FillFromQuery(IQueryCollection queryCollection)
         {
-            var selectedTabId = queryCollection[Identifier + nameof(SelectedTabId)].FirstOrDefault();
+            SelectedTab = GetStringFromQueryParameter(queryCollection, nameof(SelectedTab));
+        }
 
-            if (!string.IsNullOrEmpty(selectedTabId))
-            {
-                SelectedTabId = selectedTabId;
-            }
+        public override List<KeyValuePair<string, string>> GetHiddenInputNameAndValues()
+        {
+            var result = new List<KeyValuePair<string, string>>();
+            result = this.AddNullableToList(result, this.GetHiddenInputNameAndValue(nameof(SelectedTab), SelectedTab));
+            return result;
         }
     }
 }

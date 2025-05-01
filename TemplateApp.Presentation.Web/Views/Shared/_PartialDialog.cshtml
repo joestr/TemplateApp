@@ -3,7 +3,7 @@
     Layout = null;
 }
 
-<dialog @{ WriteLiteral(!string.IsNullOrEmpty(Model.OpenedDialogId) ? "open" : ""); }>
+<dialog @{ WriteLiteral(!string.IsNullOrEmpty(Model.OpenedDialog) ? "open" : ""); }>
     <div>
         <h5>@Model.Title</h5>
         <div>
@@ -11,10 +11,10 @@
         </div>
     </div>
     <form method="get" action="">
-        @foreach (var entry in Model.HiddenNameActions)
+        @foreach (var entry in Model.HiddenInputNameAndValues)
         {
             <input type="hidden" name="@entry.Key" value="@entry.Value"/>
         }
-        <input type="submit" name="@Model.Identifier@nameof(Model.OpenedDialogId)" value=""/>
+        <input type="submit" name="@Model.Identifier@nameof(Model.OpenedDialog)" value=""/>
     </form>
 </dialog>

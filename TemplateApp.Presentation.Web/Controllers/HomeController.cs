@@ -9,6 +9,11 @@ namespace TemplateApp.Controllers
 {
     public class HomeController : Controller
     {
+        private const string TabsIdentifier = "Tabs";
+        private const string DialogIdentifier = "Dialog";
+        private const string DialogContentIdentifier = "DialogContent";
+        private const string ButtonIdentifier = "Button";
+        
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -29,20 +34,18 @@ namespace TemplateApp.Controllers
         private PartialTabs BuildTabs()
         {
             var result = new PartialTabs(
-                "tabs",
-                new Dictionary<string, string>()
-                {
-                },
-                [],
-                null);
-            result.FillFromQueryCollection(Request.Query);
+                identifier: TabsIdentifier,
+                hiddenInputNameAndValues: new Dictionary<string, string>() { },
+                Request.Query,
+                tabs: [],
+                selectedTab: null);
             
             result.Tabs.Add(
                 new PartialTab(
-                    "_PartialText",
-                    new PartialText("Content for tab 1"),
-                    "tab1",
-                    "Tab 1"));
+                    view: "_PartialText",
+                    viewModel: new PartialText("Content for tab 1"),
+                    id: "tab1",
+                    title: "Tab 1"));
             result.Tabs.Add(
                 new PartialTab(
                     "_PartialText",
@@ -67,28 +70,25 @@ namespace TemplateApp.Controllers
         private PartialButton BuildOpenDialogButton()
         {
             return new PartialButton(
-                "btn",
-                new Dictionary<string, string>()
-                {
-                },
+                identifier: ButtonIdentifier,
+                hiddenNameAndNamesAnd: new Dictionary<string, string>() { },
+                queryCollection: Request.Query,
                 title: "Open dialog", 
                 icon: "", 
                 text: "Open dialog",
-                actionName: $"dialog{nameof(PartialDialog.OpenedDialogId)}",
-                actionValue: "dialog");
+                actionName: $"{DialogIdentifier}{nameof(PartialDialog.OpenedDialog)}",
+                actionValue: $"{DialogIdentifier}");
         }
 
         private PartialDialog BuildDialog()
         {
             var result = new PartialDialog(
-                "dialog",
-                new Dictionary<string, string>()
-                {
-                },
-                "Dialog",
-                BuildDialogContent(),
-                null);
-            result.FillFromQueryCollection(Request.Query);
+                DialogIdentifier,
+                hiddenInputNameAndValues: new Dictionary<string, string>() { },
+                queryCollection: Request.Query,
+                title: "Dialog",
+                content: BuildDialogContent(),
+                openedDialog: null);
 
             return result;
         }
@@ -96,11 +96,9 @@ namespace TemplateApp.Controllers
         private PartialDialogContent BuildDialogContent()
         {
             var result = new PartialDialogContent(
-                "dialogcontent",
-                new Dictionary<string, string>()
-                {
-                });
-            result.FillFromQueryCollection(Request.Query);
+                identifier: DialogContentIdentifier,
+                hiddenInputNameAndValues: new Dictionary<string, string>()  { },
+                queryCollection: Request.Query);
 
             return result;
         }
@@ -115,22 +113,23 @@ namespace TemplateApp.Controllers
             viewModel.OpenDialogButton = BuildOpenDialogButton();
             viewModel.Dialog = BuildDialog();
 
-            if (!string.IsNullOrEmpty(viewModel.Dialog.OpenedDialogId))
+            viewModel.Dialog.GetHiddenInputNameAndValues().ForEach(nv =>
             {
-                viewModel.PartialTabs.HiddenNameActions.Add(
-                    new KeyValuePair<string, string>($"dialog{nameof(PartialDialog.OpenedDialogId)}",
-                        viewModel.Dialog.OpenedDialogId));
-            }
+                viewModel.OpenDialogButton.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+                viewModel.PartialTabs.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+            });
 
-            if (!string.IsNullOrEmpty(viewModel.PartialTabs.SelectedTabId))
+            viewModel.PartialTabs.GetHiddenInputNameAndValues().ForEach(nv =>
             {
-                viewModel.OpenDialogButton.HiddenNameActions.Add(
-                    new KeyValuePair<string, string>($"tabs{nameof(PartialTabs.SelectedTabId)}",
-                        viewModel.PartialTabs.SelectedTabId));
-                viewModel.Dialog.HiddenNameActions.Add(
-                    new KeyValuePair<string, string>($"tabs{nameof(PartialTabs.SelectedTabId)}",
-                        viewModel.PartialTabs.SelectedTabId));
-            }
+                viewModel.OpenDialogButton.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+                viewModel.Dialog.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+            });
+            
+            viewModel.OpenDialogButton.GetHiddenInputNameAndValues().ForEach(nv =>
+            {
+                viewModel.PartialTabs.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+                viewModel.Dialog.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+            });
 
             return View(viewModel);
         }
