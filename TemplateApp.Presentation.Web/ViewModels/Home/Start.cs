@@ -9,5 +9,6 @@ namespace TemplateApp.ViewModels
         public PartialLinkButton LinkButtonWithText { get; set; }
         public PartialButton OpenDialogButton { get; set; }
         public PartialDialog Dialog { get; set; }
+        public PartialTree Tree { get; set; }
     }
 }

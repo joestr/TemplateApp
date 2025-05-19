@@ -8,3 +8,7 @@ body {
 .input-field > label {
     line-height: 1.5;
 }
+
+.tree-level {
+    padding-left: 10px;
+}

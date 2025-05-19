@@ -14,6 +14,7 @@ namespace TemplateApp.Controllers
         private const string DialogContentIdentifier = "DialogContent";
         private const string ButtonIdentifier = "Button";
         private const string TableIdentifier = "Table";
+        private const string TreeIdentifier = "Tree";
         
         private readonly ILogger<HomeController> _logger;
 
@@ -136,6 +137,26 @@ namespace TemplateApp.Controllers
             return result;
         }
 
+
+        private PartialTree BuildTree()
+        {
+            var result = new PartialTree(
+                identifier: TreeIdentifier,
+                hiddenInputNameAndValues: new Dictionary<string, string>() { },
+                queryCollection: Request.Query,
+                treeEntries: new List<PartialTreeEntry>
+                {
+                    new PartialTreeEntry("Root", "root", null),
+                    new PartialTreeEntry("Sub 1", "sub1", "root"),
+                    new PartialTreeEntry("Sub 1.1", "sub1.1", "sub1"),
+                    new PartialTreeEntry("Sub 1.1.1", "sub1.1.1", "sub1.1"),
+                    new PartialTreeEntry("Sub 2", "sub2", "root")
+                },
+                null);
+
+            return result;
+        }
+
         //[Authorize]
         public IActionResult Start()
         {
@@ -146,12 +167,14 @@ namespace TemplateApp.Controllers
             viewModel.LinkButtonWithText = BuildLinkButtonWithText();
             viewModel.OpenDialogButton = BuildOpenDialogButton();
             viewModel.Dialog = BuildDialog();
+            viewModel.Tree = BuildTree();
 
             viewModel.Dialog.GetHiddenInputNameAndValues().ForEach(nv =>
             {
                 viewModel.PartialTabs.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
                 viewModel.OpenDialogButton.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
                 viewModel.Table.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+                viewModel.Tree.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
             });
 
             viewModel.PartialTabs.GetHiddenInputNameAndValues().ForEach(nv =>
@@ -159,6 +182,7 @@ namespace TemplateApp.Controllers
                 viewModel.Dialog.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
                 viewModel.OpenDialogButton.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
                 viewModel.Table.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+                viewModel.Tree.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
             });
             
             viewModel.OpenDialogButton.GetHiddenInputNameAndValues().ForEach(nv =>
@@ -166,6 +190,7 @@ namespace TemplateApp.Controllers
                 viewModel.Dialog.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
                 viewModel.PartialTabs.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
                 viewModel.Table.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+                viewModel.Tree.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
             });
             
             viewModel.Table.GetHiddenInputNameAndValues().ForEach(nv =>
@@ -173,6 +198,15 @@ namespace TemplateApp.Controllers
                 viewModel.Dialog.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
                 viewModel.PartialTabs.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
                 viewModel.OpenDialogButton.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+                viewModel.Tree.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+            });
+
+            viewModel.Tree.GetHiddenInputNameAndValues().ForEach(nv =>
+            {
+                viewModel.Dialog.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+                viewModel.PartialTabs.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+                viewModel.OpenDialogButton.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
+                viewModel.Table.HiddenInputNameAndValues.Add(nv.Key, nv.Value);
             });
 
             return View(viewModel);

@@ -72,6 +72,19 @@ public abstract class WebAppComponentViewModel
         return result;
     }
 
+    public string[]? GetStringArrayFromQueryParameter(IQueryCollection queryCollection, string queryParameter)
+    {
+        var result = Array.Empty<string>();
+
+        var stringArrayAsString = queryCollection[Identifier + queryParameter].FirstOrDefault();
+        if (stringArrayAsString != null)
+        {
+            result = JsonConvert.DeserializeObject<string[]>(stringArrayAsString);
+        }
+
+        return result;
+    }
+
     public abstract List<KeyValuePair<string, string>> GetHiddenInputNameAndValues();
 
     public List<KeyValuePair<string, string>> AddNullableToList(List<KeyValuePair<string, string>> list, KeyValuePair<string, string>? value)
@@ -119,6 +132,16 @@ public abstract class WebAppComponentViewModel
         if (!string.IsNullOrEmpty(value))
         {
             return new KeyValuePair<string, string>(Identifier + name, value);
+        }
+
+        return null;
+    }
+
+    public KeyValuePair<string, string>? GetHiddenInputNameAndValue(string name, string[]? value)
+    {
+        if (value != null && value == Array.Empty<string>())
+        {
+            return new KeyValuePair<string, string>(Identifier + name, JsonConvert.SerializeObject(value));
         }
 
         return null;

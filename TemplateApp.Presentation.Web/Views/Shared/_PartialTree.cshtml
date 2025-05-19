@@ -1,0 +1,47 @@
+﻿@using TemplateApp.Presentation.Web.ViewModels.Shared
+@model TemplateApp.Presentation.Web.ViewModels.Shared.PartialTree
+@{
+    Layout = null;
+
+    async Task<string> RenderX(List<PartialTreeEntry> entries, long level = 0)
+    {
+        @foreach (var entry in entries)
+        {
+            var renderChild = false;
+            <form method="get" action="">
+                @for (long i = 0; i < level; i++)
+                {
+                    <span class="tree-level"></span>
+                }
+                @foreach (var entry in Model.HiddenInputNameAndValues)
+                {
+                    <input type="hidden" name="@entry.Key" value="@entry.Value"/>
+                }
+                @if (
+                    Model.OpenedTreeIds != null
+                    && Model.OpenedTreeIds.Contains(entry.Id)
+                )
+                {
+                    <button type="submit" name="@Model.Identifier@nameof(Model.OpenedTreeIds)" value="@Model.GetOpenedTreeIdsWithoutTreeId(entry.Id)">-</button>
+                    @entry.Text
+                    renderChild = true;
+                }
+                else
+                {
+                    <button type="submit" name="@Model.Identifier@nameof(Model.OpenedTreeIds)" value="@Model.GetOpenedTreeIdsWithTreeId(entry.Id)">+</button>
+                    @entry.Text
+                }
+            </form>
+            if (renderChild)
+            {
+                @await RenderX(Model.GetChildTreeEntries(entry.Id), level + 1)
+            }
+        }
+
+        return "";
+    }
+}
+
+<div>
+    @await RenderX(Model.GetRootTreeEntries())
+</div>
