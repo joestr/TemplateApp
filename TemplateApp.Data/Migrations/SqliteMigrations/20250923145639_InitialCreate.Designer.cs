@@ -8,10 +8,10 @@ using TemplateApp.Data.Contexts;
 
 #nullable disable
 
-namespace TemplateApp.Data.Migrations.MsSqlServerMigrations
+namespace TemplateApp.Data.Migrations.SqliteMigrations
 {
-    [DbContext(typeof(MsSqlServerDatabaseContext))]
-    [Migration("20241015143517_InitialCreate")]
+    [DbContext(typeof(SqliteDatabaseContext))]
+    [Migration("20250923145639_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace TemplateApp.Data.Migrations.MsSqlServerMigrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
 
-            modelBuilder.Entity("TemplateApp.Presentation.Web.Data.Entities.Author", b =>
+            modelBuilder.Entity("TemplateApp.Data.Entities.Author", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,9 +49,20 @@ namespace TemplateApp.Data.Migrations.MsSqlServerMigrations
                     b.HasKey("Id");
 
                     b.ToTable("Authors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("5f4546a4-701b-4b2c-ae1e-c4a67b1e6ed9"),
+                            FirstName = "Karl",
+                            LastName = "Marx",
+                            Prefix = "",
+                            Salutation = "",
+                            Suffix = ""
+                        });
                 });
 
-            modelBuilder.Entity("TemplateApp.Presentation.Web.Data.Entities.Book", b =>
+            modelBuilder.Entity("TemplateApp.Data.Entities.Book", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -77,20 +88,38 @@ namespace TemplateApp.Data.Migrations.MsSqlServerMigrations
                     b.HasIndex("AuthorId");
 
                     b.ToTable("Books");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("21396dd4-d045-418a-8aea-bc5f8bae30a5"),
+                            AuthorId = new Guid("5f4546a4-701b-4b2c-ae1e-c4a67b1e6ed9"),
+                            Description = "",
+                            Subtitle = "",
+                            Title = "Manifest der Kommunistischen Partei"
+                        },
+                        new
+                        {
+                            Id = new Guid("e4219615-344c-4858-a148-f016d2c220eb"),
+                            AuthorId = new Guid("5f4546a4-701b-4b2c-ae1e-c4a67b1e6ed9"),
+                            Description = "",
+                            Subtitle = "Kritik der politischen Ökonomie",
+                            Title = "Das Kapital"
+                        });
                 });
 
-            modelBuilder.Entity("TemplateApp.Presentation.Web.Data.Entities.Book", b =>
+            modelBuilder.Entity("TemplateApp.Data.Entities.Book", b =>
                 {
-                    b.HasOne("TemplateApp.Presentation.Web.Data.Entities.Author", "Author")
+                    b.HasOne("TemplateApp.Data.Entities.Author", "Author")
                         .WithMany("Books")
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("TemplateApp.Presentation.Web.Data.Entities.Author", b =>
+            modelBuilder.Entity("TemplateApp.Data.Entities.Author", b =>
                 {
                     b.Navigation("Books");
                 });

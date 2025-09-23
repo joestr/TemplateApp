@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace TemplateApp.Data.Migrations.SqliteMigrations
 {
     /// <inheritdoc />
@@ -45,7 +47,21 @@ namespace TemplateApp.Data.Migrations.SqliteMigrations
                         column: x => x.AuthorId,
                         principalTable: "Authors",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Authors",
+                columns: new[] { "Id", "FirstName", "LastName", "Prefix", "Salutation", "Suffix" },
+                values: new object[] { new Guid("5f4546a4-701b-4b2c-ae1e-c4a67b1e6ed9"), "Karl", "Marx", "", "", "" });
+
+            migrationBuilder.InsertData(
+                table: "Books",
+                columns: new[] { "Id", "AuthorId", "Description", "Subtitle", "Title" },
+                values: new object[,]
+                {
+                    { new Guid("21396dd4-d045-418a-8aea-bc5f8bae30a5"), new Guid("5f4546a4-701b-4b2c-ae1e-c4a67b1e6ed9"), "", "", "Manifest der Kommunistischen Partei" },
+                    { new Guid("e4219615-344c-4858-a148-f016d2c220eb"), new Guid("5f4546a4-701b-4b2c-ae1e-c4a67b1e6ed9"), "", "Kritik der politischen Ökonomie", "Das Kapital" }
                 });
 
             migrationBuilder.CreateIndex(

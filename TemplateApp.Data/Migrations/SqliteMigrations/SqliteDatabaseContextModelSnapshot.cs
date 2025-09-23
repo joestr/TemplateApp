@@ -17,7 +17,7 @@ namespace TemplateApp.Data.Migrations.SqliteMigrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
 
-            modelBuilder.Entity("TemplateApp.Presentation.Web.Data.Entities.Author", b =>
+            modelBuilder.Entity("TemplateApp.Data.Entities.Author", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -59,7 +59,7 @@ namespace TemplateApp.Data.Migrations.SqliteMigrations
                         });
                 });
 
-            modelBuilder.Entity("TemplateApp.Presentation.Web.Data.Entities.Book", b =>
+            modelBuilder.Entity("TemplateApp.Data.Entities.Book", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -105,9 +105,9 @@ namespace TemplateApp.Data.Migrations.SqliteMigrations
                         });
                 });
 
-            modelBuilder.Entity("TemplateApp.Presentation.Web.Data.Entities.Book", b =>
+            modelBuilder.Entity("TemplateApp.Data.Entities.Book", b =>
                 {
-                    b.HasOne("TemplateApp.Presentation.Web.Data.Entities.Author", "Author")
+                    b.HasOne("TemplateApp.Data.Entities.Author", "Author")
                         .WithMany("Books")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -116,7 +116,7 @@ namespace TemplateApp.Data.Migrations.SqliteMigrations
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("TemplateApp.Presentation.Web.Data.Entities.Author", b =>
+            modelBuilder.Entity("TemplateApp.Data.Entities.Author", b =>
                 {
                     b.Navigation("Books");
                 });

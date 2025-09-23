@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TemplateApp.Data.Contexts;
@@ -11,40 +12,44 @@ using TemplateApp.Data.Contexts;
 namespace TemplateApp.Data.Migrations.MsSqlServerMigrations
 {
     [DbContext(typeof(MsSqlServerDatabaseContext))]
-    [Migration("20241103145259_AddAuthorIdToBook")]
-    partial class AddAuthorIdToBook
+    [Migration("20250923145630_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            modelBuilder.Entity("TemplateApp.Presentation.Web.Data.Entities.Author", b =>
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("TemplateApp.Data.Entities.Author", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Prefix")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Salutation")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Suffix")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -62,26 +67,26 @@ namespace TemplateApp.Data.Migrations.MsSqlServerMigrations
                         });
                 });
 
-            modelBuilder.Entity("TemplateApp.Presentation.Web.Data.Entities.Book", b =>
+            modelBuilder.Entity("TemplateApp.Data.Entities.Book", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AuthorId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Subtitle")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -108,9 +113,9 @@ namespace TemplateApp.Data.Migrations.MsSqlServerMigrations
                         });
                 });
 
-            modelBuilder.Entity("TemplateApp.Presentation.Web.Data.Entities.Book", b =>
+            modelBuilder.Entity("TemplateApp.Data.Entities.Book", b =>
                 {
-                    b.HasOne("TemplateApp.Presentation.Web.Data.Entities.Author", "Author")
+                    b.HasOne("TemplateApp.Data.Entities.Author", "Author")
                         .WithMany("Books")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -119,7 +124,7 @@ namespace TemplateApp.Data.Migrations.MsSqlServerMigrations
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("TemplateApp.Presentation.Web.Data.Entities.Author", b =>
+            modelBuilder.Entity("TemplateApp.Data.Entities.Author", b =>
                 {
                     b.Navigation("Books");
                 });

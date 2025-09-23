@@ -34,10 +34,10 @@ We aim to target multiple database systems, so we make things a little bit diffe
 
 ### Create a migration
 
-- Microsoft SQL Server: `dotnet ef migrations add InitialCreate --project AspNetCoreWebAppMvcMaterialize.Data --context MsSqlServerDatabaseContext --output-dir Migrations/MsSqlServerMigrations`
-- Sqlite: `dotnet ef migrations add InitialCreate --project AspNetCoreWebAppMvcMaterialize.Data --context SqliteDatabaseContext --output-dir Migrations/SqliteMigrations`
+- Microsoft SQL Server: `dotnet ef migrations add InitialCreate --project TemplateApp.Data --context MsSqlServerDatabaseContext --output-dir Migrations/MsSqlServerMigrations`
+- Sqlite: `dotnet ef migrations add InitialCreate --project TemplateApp.Data --context SqliteDatabaseContext --output-dir Migrations/SqliteMigrations`
 
 ## Update database schema
 
-- Microsoft SQL Server: `dotnet ef database update --context MsSqlServerDatabaseContext --connection "Server=127.0.0.1;Database=App;User Id=app;Password=empty;"`
-- Sqlite: `dotnet ef database update --context SqliteDatabaseContext --connection "Data Source=./aspnetcorewebappmaterialize.sqlite"`
+- Microsoft SQL Server: `dotnet ef database update --project TemplateApp.Data --context MsSqlServerDatabaseContext --connection "Server=127.0.0.1;Database=App;User Id=app;Password=empty;"`
+- Sqlite: `dotnet ef database update --project TemplateApp.Data --context SqliteDatabaseContext --connection "Data Source=./aspnetcorewebappmaterialize.sqlite"`

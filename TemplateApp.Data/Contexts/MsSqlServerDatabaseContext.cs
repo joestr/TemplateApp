@@ -2,11 +2,11 @@
 
 namespace TemplateApp.Data.Contexts
 {
-    public class SqliteDatabaseContext : DatabaseContext
+    public class MsSqlServerDatabaseContext : DatabaseContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder = optionsBuilder.UseSqlite();
+            optionsBuilder = optionsBuilder.UseSqlServer();
             base.OnConfiguring(optionsBuilder);
         }
     }
