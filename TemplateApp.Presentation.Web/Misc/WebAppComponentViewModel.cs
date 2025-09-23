@@ -139,7 +139,7 @@ public abstract class WebAppComponentViewModel
 
     public KeyValuePair<string, string>? GetHiddenInputNameAndValue(string name, string[]? value)
     {
-        if (value != null && value == Array.Empty<string>())
+        if (value != null && value != Array.Empty<string>())
         {
             return new KeyValuePair<string, string>(Identifier + name, JsonConvert.SerializeObject(value));
         }
