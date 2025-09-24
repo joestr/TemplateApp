@@ -1,4 +1,4 @@
-namespace TemplateApp.ViewModels
+namespace TemplateApp.Presentation.Web.ViewModels.Error
 {
     public class ErrorViewModel
     {

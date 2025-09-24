@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using Microsoft.AspNetCore.Authorization;
+using TemplateApp.Data.Contexts;
 using TemplateApp.Presentation.Web.Misc;
+using TemplateApp.Presentation.Web.ViewModels.Home;
 using TemplateApp.Presentation.Web.ViewModels.Shared;
-using TemplateApp.ViewModels;
 
-namespace TemplateApp.Controllers
+namespace TemplateApp.Presentation.Web.Controllers
 {
     public class HomeController : Controller
     {
@@ -17,10 +16,14 @@ namespace TemplateApp.Controllers
         private const string TreeIdentifier = "Tree";
         
         private readonly ILogger<HomeController> _logger;
+        private readonly DatabaseContext _databaseContext;
+        private readonly ReadOnlyDatabaseContext _readOnlyDatabaseContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, DatabaseContext databaseContext, ReadOnlyDatabaseContext readOnlyDatabaseContext)
         {
             _logger = logger;
+            _databaseContext = databaseContext;
+            _readOnlyDatabaseContext = readOnlyDatabaseContext;
         }
 
         public IActionResult Index()
@@ -35,29 +38,22 @@ namespace TemplateApp.Controllers
 
         private PartialTable BuildTable()
         {
+            var authors = _readOnlyDatabaseContext.Authors;
+
             var result = new PartialTable(
                 identifier: TableIdentifier,
                 new Dictionary<string, string>() {},
                 queryCollection: Request.Query,
-                new List<List<string>>()
-                {
-                    new List<string>() { "Row 1 Col 1", "Row 1 Col 2" },
-                    new List<string>() { "Row 2 Col 1", "Row 2 Col 2" },
-                    new List<string>() { "Row 3 Col 1", "Row 3 Col 2" },
-                },
+                grid: authors.Select(author => new List<string>() { author.Id.ToString(), author.Salutation, author.Prefix, author.FirstName, author.LastName, author.Suffix }).ToList(),
                 null,
                 null);
 
             if (result.SearchTerm != null)
             {
-                var res = new List<List<string>>()
-                {
-                    new List<string>() { "Row 1 Col 1", "Row 1 Col 2" },
-                    new List<string>() { "Row 2 Col 1", "Row 2 Col 2" },
-                    new List<string>() { "Row 3 Col 1", "Row 3 Col 2" },
-                };
-                
-               res = res.FindAll(rows => rows.Any(cols => cols.Contains(result.SearchTerm)));
+                var res = authors.Where(author =>
+                    author.FirstName.Contains(result.SearchTerm)
+                    || author.LastName.Contains(result.SearchTerm)).Select(author => new List<string>()
+                    { author.Id.ToString(), author.Salutation, author.Prefix, author.FirstName, author.LastName, author.Suffix }).ToList();
 
                result.Grid = res;
             }

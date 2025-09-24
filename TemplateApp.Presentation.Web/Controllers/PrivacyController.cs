@@ -1,8 +1,6 @@
-using TemplateApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
-namespace TemplateApp.Controllers
+namespace TemplateApp.Presentation.Web.Controllers
 {
     public class PrivacyController : Controller
     {

@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using TemplateApp.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using TemplateApp.Presentation.Web.ViewModels.Error;
 
-namespace TemplateApp.Controllers
+namespace TemplateApp.Presentation.Web.Controllers
 {
     public class ErrorController : Controller
     {

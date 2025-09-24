@@ -1,6 +1,6 @@
 ﻿using TemplateApp.Presentation.Web.ViewModels.Shared;
 
-namespace TemplateApp.ViewModels
+namespace TemplateApp.Presentation.Web.ViewModels.Home
 {
     public class Start
     {
