@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TemplateApp.Data.Contexts;
@@ -20,11 +15,27 @@ namespace TemplateApp.Core.Services
 
             var sqliteConnectionString = configuration.GetConnectionString("Sqlite");
             var msSqlServerConnectionString = configuration.GetConnectionString("MsSqlServer");
+            var msSqlServerReadOnlyConnectionString = configuration.GetConnectionString("MsSqlServerReadOnly");
 
-            if (sqliteConnectionString != null)
+            var isSqlitePresent = sqliteConnectionString != null;
+            var isMsSqlServerPresent = msSqlServerConnectionString != null;
+            var isMsSqlServerReadOnlyPresent = msSqlServerReadOnlyConnectionString != null;
+
+            if (isSqlitePresent)
             {
                 serviceCollection.AddDbContext<DatabaseContext>(options =>
                     options.UseSqlite(sqliteConnectionString));
+            }
+            else if (isMsSqlServerPresent)
+            {
+                serviceCollection.AddDbContext<DatabaseContext>(options =>
+                    options.UseSqlServer(msSqlServerConnectionString));
+
+                if (isMsSqlServerReadOnlyPresent)
+                {
+                    serviceCollection.AddDbContext<ReadOnlyDatabaseContext>(options =>
+                        options.UseSqlServer(msSqlServerReadOnlyConnectionString));
+                }
             }
         }
     }
