@@ -25,6 +25,9 @@ namespace TemplateApp.Core.Services
             {
                 serviceCollection.AddDbContext<DatabaseContext>(options =>
                     options.UseSqlite(sqliteConnectionString));
+
+                serviceCollection.AddDbContext<ReadOnlyDatabaseContext>(options =>
+                    options.UseSqlite(sqliteConnectionString));
             }
             else if (isMsSqlServerPresent)
             {
@@ -35,6 +38,11 @@ namespace TemplateApp.Core.Services
                 {
                     serviceCollection.AddDbContext<ReadOnlyDatabaseContext>(options =>
                         options.UseSqlServer(msSqlServerReadOnlyConnectionString));
+                }
+                else
+                {
+                    serviceCollection.AddDbContext<ReadOnlyDatabaseContext>(options =>
+                        options.UseSqlServer(msSqlServerConnectionString));
                 }
             }
         }
