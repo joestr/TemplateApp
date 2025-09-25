@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using TemplateApp.Core.Providers.Data;
 using TemplateApp.Data.Contexts;
 using TemplateApp.Presentation.Web.Misc;
 using TemplateApp.Presentation.Web.ViewModels.Home;
@@ -16,14 +17,12 @@ namespace TemplateApp.Presentation.Web.Controllers
         private const string TreeIdentifier = "Tree";
         
         private readonly ILogger<HomeController> _logger;
-        private readonly DatabaseContext _databaseContext;
-        private readonly ReadOnlyDatabaseContext _readOnlyDatabaseContext;
+        private readonly AuthorDataProvider _authorDataProvider;
 
-        public HomeController(ILogger<HomeController> logger, DatabaseContext databaseContext, ReadOnlyDatabaseContext readOnlyDatabaseContext)
+        public HomeController(ILogger<HomeController> logger, AuthorDataProvider authorDataProvider)
         {
             _logger = logger;
-            _databaseContext = databaseContext;
-            _readOnlyDatabaseContext = readOnlyDatabaseContext;
+            _authorDataProvider = authorDataProvider;
         }
 
         public IActionResult Index()
@@ -38,22 +37,19 @@ namespace TemplateApp.Presentation.Web.Controllers
 
         private PartialTable BuildTable()
         {
-            var authors = _readOnlyDatabaseContext.Authors;
-
             var result = new PartialTable(
                 identifier: TableIdentifier,
                 new Dictionary<string, string>() {},
                 queryCollection: Request.Query,
-                grid: authors.Select(author => new List<string>() { author.Id.ToString(), author.Salutation, author.Prefix, author.FirstName, author.LastName, author.Suffix }).ToList(),
+                grid: _authorDataProvider.GetAuthors().Select(author => new List<string>() { author.Id.ToString(), author.Salutation, author.Prefix, author.FirstName, author.LastName, author.Suffix }).ToList(),
                 null,
                 null);
 
             if (result.SearchTerm != null)
             {
-                var res = authors.Where(author =>
-                    author.FirstName.Contains(result.SearchTerm)
-                    || author.LastName.Contains(result.SearchTerm)).Select(author => new List<string>()
-                    { author.Id.ToString(), author.Salutation, author.Prefix, author.FirstName, author.LastName, author.Suffix }).ToList();
+                var res = _authorDataProvider.FindAuthors(result.SearchTerm)
+                    .Select(author =>
+                        new List<string>() { author.Id.ToString(), author.Salutation, author.Prefix, author.FirstName, author.LastName, author.Suffix }).ToList();
 
                result.Grid = res;
             }
